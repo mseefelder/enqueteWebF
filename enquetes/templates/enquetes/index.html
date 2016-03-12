@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 {% csrf_token %}
 <!-- Carrega os arquivos static dessa aplicação e em seguida aplica o css que criamos lá -->
 {% load staticfiles %}
@@ -13,3 +17,5 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+
+{% endblock %}

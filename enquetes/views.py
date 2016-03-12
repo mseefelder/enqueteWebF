@@ -1,22 +1,27 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.db.models import F
 from django.utils import timezone
+from django.views.generic import View
+
+from django.contrib.auth.decorators import login_required
 
 # For requesting login: insert mixin in
 # "class SomeView(LoginRequiredMixin, generic.Something...):"
 
-#from django.contrib.auth.mixins import LoginRequiredMixin #uncomment this to use it
+from django.contrib.auth.mixins import LoginRequiredMixin #uncomment this to use it
 
 # https://docs.djangoproject.com/en/1.9/topics/auth/default/
 # There are mixins for access controls as well
 
 from .models import Question, Choice
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
+    login_url = 'enquetes:login'
+    redirect_field_name = 'redirect_to'
     template_name = 'enquetes/index.html'
     context_object_name = 'latest_question_list'
 
@@ -36,6 +41,7 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'enquetes/results.html'
 
+@login_required()
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:

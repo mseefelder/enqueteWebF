@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 
 #   For authentication we import this
 #   For each authentication view, follow the documentation:
@@ -16,6 +16,8 @@ urlpatterns = [
 	url(r'^(?P<pk>[0-9]+)/$', views.AnswerView.as_view(), name='answer'),
     url(r'^(?P<pk>[0-9]+)/results/$', views.ResultsView.as_view(), name='results'),
     url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
-    url(r'^login/$', auth_views.login, {'template_name': 'enquetes/login.html'}, name='login'),
+    url('^', include('django.contrib.auth.urls')),
+    #url(r'^login/$', auth_views.login, {'template_name': 'enquetes/login.html'}, name='login'),
+    #url(r'^logout/$', auth_views.logout, {'template_name': 'enquetes/logout.html'}, name='logout'),
 ]
 
