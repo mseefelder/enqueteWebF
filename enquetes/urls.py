@@ -1,5 +1,13 @@
 from django.conf.urls import url
 
+#   For authentication we import this
+#   For each authentication view, follow the documentation:
+# https://docs.djangoproject.com/en/1.9/topics/auth/default/#all-authentication-views
+#   Login url below serves as an example. The parameter 'template_name' is passed to
+# make this view load 'enquetes/login.html' on our templates folder. The default would be
+# 'registration/login.html' on our templates folder
+from django.contrib.auth import views as auth_views
+
 from . import views
 
 app_name = 'enquetes'
@@ -8,5 +16,6 @@ urlpatterns = [
 	url(r'^(?P<pk>[0-9]+)/$', views.AnswerView.as_view(), name='answer'),
     url(r'^(?P<pk>[0-9]+)/results/$', views.ResultsView.as_view(), name='results'),
     url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
+    url(r'^login/$', auth_views.login, {'template_name': 'enquetes/login.html'}, name='login'),
 ]
 

@@ -5,9 +5,12 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.db.models import F
 from django.utils import timezone
-# For requesting login: insert here
+
+# For requesting login: insert mixin in
 # "class SomeView(LoginRequiredMixin, generic.Something...):"
-#from django.contrib.auth.mixins import LoginRequiredMixin
+
+#from django.contrib.auth.mixins import LoginRequiredMixin #uncomment this to use it
+
 # https://docs.djangoproject.com/en/1.9/topics/auth/default/
 # There are mixins for access controls as well
 
