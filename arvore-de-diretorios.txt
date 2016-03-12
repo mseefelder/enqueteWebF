@@ -1,0 +1,60 @@
+Árvore de diretórios
+
+./enqueteWeb/
+├── db.sqlite3
+│  				# Banco de dados do servidor
+│
+├── enquetes
+│  	│			# Pasta do aplicativo de enquetes
+│   ├── admin.py
+│  	│				# Personalização da página de admin
+│   ├── apps.py
+│  	│
+│   ├── __init__.py
+│  	│
+│   ├── migrations
+│  	│	│			# Migrações no BD, descritas em python
+│  	│	│			# Para converter em SQL, ler documentação
+│   │   ├── 0001_initial.py
+│  	│  	│
+│   │   └── __init__.py
+│  	│
+│   ├── models.py
+│  	│				# Modelos do BD (classes no sistema)
+│   ├── static
+│  	│	│			# Pasta para armazenar arquivos estáticos da aplicação
+│  	│	│			# Nome é padrão do Django (ele busca os arquivos aqui)
+│   │   └── enquetes
+│  	│		│			# Nome é padrão para definir que
+│  	│	 	│			# é da aplicação 'enquetes'
+│   │       ├── images
+│  	│		│				# Pasta padrão Django para imagens da aplicação
+│   │       └── style.css
+│   │ 
+│   ├── templates
+│  	│	│			# Pasta para armazenar templates html da aplicação
+│  	│	│			# Nome é padrão do Django (ele busca os arquivos aqui)
+│   │   └── enquetes
+│  	│		│			# Nome é padrão para definir que
+│  	│	 	│			# é da aplicação 'enquetes'
+│   │       ├── answer.html
+│   │       ├── index.html
+│   │       └── results.html
+│   │
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+│
+├── enqueteWeb
+│  	│			# Arquivos do servidor em geral
+│   ├── __init__.py
+│   ├── settings.py
+│  	│				# Configurações do servidor
+│   ├── urls.py
+│  	│				# Rotas do servidor
+│   └── wsgi.py
+│
+├── manage.py
+└── README.md
+
+

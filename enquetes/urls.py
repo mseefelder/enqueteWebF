@@ -4,9 +4,9 @@ from . import views
 
 app_name = 'enquetes'
 urlpatterns = [
-	url(r'^$', views.index, name='index'),
-	url(r'^(?P<question_id>[0-9]+)/answer/$', views.answer, name='answer'),
-    url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
+	url(r'^$', views.IndexView.as_view(), name='index'),
+	url(r'^(?P<pk>[0-9]+)/$', views.AnswerView.as_view(), name='answer'),
+    url(r'^(?P<pk>[0-9]+)/results/$', views.ResultsView.as_view(), name='results'),
     url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ]
 
