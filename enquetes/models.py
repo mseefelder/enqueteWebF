@@ -21,11 +21,11 @@ class Choice(models.Model):
 class UserQuestion(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
-	def __str__(self):
-		return str(self.user.username())+" "+self.question.question_text
+	#def __str__(self):
+	#	return (str(self.user.username())+" "+self.question.question_text)
 
-class QuestionAnswer(models.Model):
+class ChoiceQuestion(models.Model):
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
 	choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
-	def __str__(self):
-		return self.question.question_text+" "+self.choice.choice_text
+	#def __str__(self):
+	#	return self.question.question_text+" "+self.choice.choice_text

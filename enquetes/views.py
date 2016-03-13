@@ -6,6 +6,7 @@ from django.views import generic
 from django.db.models import F
 from django.utils import timezone
 from django.views.generic import View
+from django.db import transaction
 
 from django.contrib.auth.decorators import login_required
 
@@ -17,7 +18,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin #uncomment this to use
 # https://docs.djangoproject.com/en/1.9/topics/auth/default/
 # There are mixins for access controls as well
 
-from .models import Question, Choice
+from .models import Question, Choice, UserQuestion, ChoiceQuestion
 
 class IndexView(LoginRequiredMixin, generic.ListView):
     login_url = 'enquetes:login'
@@ -53,12 +54,31 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice", 
             })
     else:
-        # Using F to avoid race conditions:
-        # https://docs.djangoproject.com/en/1.9/ref/models/expressions/#avoiding-race-conditions-using-f
-        selected_choice.votes = F('votes') + 1
-        selected_choice.save()
-        # If the object needs to be used again, we need to:
-        # selected_choice.refresh_from_db()
+        try:
+            # Checks if user alredy answered to Question
+            uq = UserQuestion.objects.get(user=request.user, question=question)
+        except (KeyError, NameError, UserQuestion.DoesNotExist):
+            with transaction.atomic():
+                # Create object linking User to Question
+                uq = UserQuestion(user=request.user, question=question)
+                uq.save()
+                with transaction.atomic(savepoint=False):
+                    # Create object linking Choice to Question (1 answer)
+                    cq = ChoiceQuestion(question=question, choice=selected_choice)
+                    cq.save()
+        else:
+            return render(request, 'enquetes/answer.html', {
+            'question': question, 
+            'error_message': "You have already answered this question.", 
+            })
+
+
+        ## Using F to avoid race conditions:
+        ## https://docs.djangoproject.com/en/1.9/ref/models/expressions/#avoiding-race-conditions-using-f
+        #selected_choice.votes = F('votes') + 1
+        #selected_choice.save()
+        ## If the object needs to be used again, we need to:
+        ## selected_choice.refresh_from_db()
 
         #After successful operation with POST, return HttpResposeRedirect
         #This will prevent double-voting
