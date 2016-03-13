@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
-from django.template import loader
+from django.template import loader, RequestContext
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.db.models import F
 from django.utils import timezone
 from django.views.generic import View
 from django.db import transaction
+from django.forms import ModelForm
+from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
 
@@ -19,6 +21,28 @@ from django.contrib.auth.mixins import LoginRequiredMixin #uncomment this to use
 # There are mixins for access controls as well
 
 from .models import Question, Choice, UserQuestion, ChoiceQuestion
+
+# Use this ModelForm to create a form based on a model, automatically
+# Might be used for teh creation of Enquetes e Opcoes
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+"""
+# Previous wy used to register, was buggy
+def register(request):
+    if request.method == 'POST':
+        uf = UserForm(request.POST, prefix='user')
+        if uf.is_valid():
+            user = uf.save()
+            return HttpResponseRedirect(reverse('enquetes:index'))#this is wrong, we have to pass the url differently
+    else:
+        uf = UserForm(prefix='user')
+    return render_to_response('registration/register.html', 
+                                               dict(form=uf,),
+                                               context_instance=RequestContext(request))
+"""
 
 class IndexView(LoginRequiredMixin, generic.ListView):
     login_url = 'enquetes:login'
